@@ -1,6 +1,7 @@
 library(shiny)
 
 generate_story <- function(noun, verb, adjective, adverb) {
+  cat("I'm inside generate_story function!\n", file=stderr())
   glue::glue("
     Once upon a time, there was a {adjective} {noun} who loved to
     {verb} {adverb}. It was the funniest thing ever!
@@ -9,6 +10,7 @@ generate_story <- function(noun, verb, adjective, adverb) {
 
 ui <- fluidPage(
   titlePanel("Mad Libs Game"),
+  {cat("\n ------ \n Inside ui\n", file=stderr())}, 
   sidebarLayout(
     sidebarPanel(
       textInput("noun1", "Enter a noun:", ""),
@@ -26,6 +28,7 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   story <- eventReactive(input$submit, {
+    cat("\n**  Inside server function ** \n", file=stderr())
     generate_story(input$noun1, input$verb, input$adjective, input$adverb)
   })
   output$story <- renderText({
